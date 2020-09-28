@@ -1,9 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
-const recordsRouter = require('./routers/recordsRoutes');
-const path = require('path');
-const dotenv = require('dotenv');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
+const planetsRouter = require("./routers/planets");
+const rebelsRouter = require("./routers/rebels");
+const usersRouter = require("./routers/users");
+const dotenv = require("dotenv");
 
 //initialize the enviroment variables
 dotenv.config();
@@ -13,7 +14,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 //Setup Routes
-app.use("/instant/records", recordsRouter);
+app.use("/spacePainel/planets", planetsRouter);
+app.use("/spacePainel/rebels", rebelsRouter);
+app.use("/spacePainel/users", usersRouter);
 
 //Connection config
 const { DB_CONNECTION } = process.env;
@@ -31,12 +34,12 @@ mongoose.connect(
   }
 );
 
-//Connection 
+//Connection
 const { connection } = mongoose;
-connection.once('open', () => {
-    connectedToMongoDB = true;
-    const APP_PORT = process.env.PORT;
-    app.listen(APP_PORT, () => {
-      console.log(`Server on port ${APP_PORT}`);
-    });
+connection.once("open", () => {
+  connectedToMongoDB = true;
+  const APP_PORT = process.env.PORT;
+  app.listen(APP_PORT, () => {
+    console.log(`Server on port ${APP_PORT}`);
   });
+});
